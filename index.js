@@ -1,6 +1,8 @@
 const express = require ('express')
 const app = express()
 
+app.use(express.json())
+
 // http://localhost:3000/tonatiuh/123
 app.get('/:user/:password', (req, res) =>{ //Endponit
     const {user, password} = req.params
@@ -22,6 +24,18 @@ app.get('/login', (req,res) => {
     
 }})
 
+app.post('/login', (req, res) => {
+    const {user, password} = req.body
+    if (!user || !password) {
+        res.status(400).json({msg:'you need to provide <user> and <password> params'})
+    }
+    
+    if (user === 'tonatiuh' && password === '123'){
+        res.json({msg:'sign in succesfully'})  
+        return
+}
+      res.status(400).json({msg: 'wrong user or password'})
+})
 
 app.put('/', (request, response) =>{
     response.json({msg:'Hola PUT'})
